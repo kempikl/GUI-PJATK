@@ -1,10 +1,11 @@
 package PRO1;
 
 public class Game {
-    private Board board;
-    private Player whitePlayer;
-    private Player blackPlayer;
+    private final Board board;
+    private final Player whitePlayer;
+    private final Player blackPlayer;
     private Player currentPlayer;
+    private GameObserver observer;
 
     public Game(Board board, String whitePlayerName, String blackPlayerName) {
         this.board = board;
@@ -17,16 +18,16 @@ public class Game {
 
     public void play(int[] move) {
         if (makeMove(move)) {
-            if (isOpponentInCheckmate()) {
-                System.out.println("Szach-mat! Gracz " + currentPlayer.getName() + " wygrywa!");
-                return;
-            } else {
-                System.out.println("Ruch wykonany.");
+            if (isOpponentInCheck()) {
+                if (isOpponentInCheckmate()) observer.onCheckmate(currentPlayer.getName());
+                observer.onCheck();
             }
+            System.out.println("Ruch wykonany.");
+            switchPlayer();
         } else {
             System.out.println("Nieprawidłowy ruch. Spróbuj ponownie.");
         }
-        switchPlayer();
+        observer.gameChanged(currentPlayer.getName());
     }
 
     public String getCurrentPlayerName() {
@@ -39,7 +40,12 @@ public class Game {
 
     public boolean isOpponentInCheckmate() {
         Player opponent = currentPlayer == whitePlayer ? blackPlayer : whitePlayer;
-        return opponent.isKingInCheckmate(board, !currentPlayer.isWhite());
+        return opponent.isKingInCheckmate(board);
+    }
+
+    public boolean isOpponentInCheck() {
+        Player opponent = currentPlayer == whitePlayer ? blackPlayer : whitePlayer;
+        return opponent.isKingInCheck(board);
     }
 
     public void switchPlayer() {
@@ -48,6 +54,10 @@ public class Game {
 
     public Board getBoard() {
         return board;
+    }
+
+    public void setObserver(GameObserver gameObserver) {
+        this.observer = gameObserver;
     }
 }
 

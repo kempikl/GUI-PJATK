@@ -3,7 +3,7 @@ package PRO1;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Queen extends Piece {
+public class Queen extends Figure {
     /**
      * Konstruktor klasy Queen.
      *
@@ -80,11 +80,11 @@ public class Queen extends Piece {
         int newCol = col + colStep;
 
         while (board.isValidMove(row, col, newRow, newCol)) {
-            Piece targetPiece = board.getPiece(newRow, newCol);
-            if (targetPiece == null) {
+            Figure targetFigure = board.getFigure(newRow, newCol);
+            if (targetFigure == null) {
                 moves.add(new int[]{newRow, newCol});
             } else {
-                if (isWhite() != targetPiece.isWhite()) {
+                if (isWhite() != targetFigure.isWhite()) {
                     moves.add(new int[]{newRow, newCol});
                 }
                 break;
@@ -106,12 +106,12 @@ public class Queen extends Piece {
      */
     private boolean addMoveIfValid(Board board, int newRow, int newCol, List<int[]> moves) {
         if (board.isValidMove(row, col, newRow, newCol)) {
-            Piece targetPiece = board.getPiece(newRow, newCol);
-            if (targetPiece == null) {
+            Figure targetFigure = board.getFigure(newRow, newCol);
+            if (targetFigure == null) {
                 moves.add(new int[]{newRow, newCol});
                 return false;
             } else {
-                if (isWhite() != targetPiece.isWhite()) {
+                if (isWhite() != targetFigure.isWhite()) {
                     moves.add(new int[]{newRow, newCol});
                 }
                 return true;

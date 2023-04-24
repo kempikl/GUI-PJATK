@@ -3,7 +3,7 @@ package PRO1;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Bishop extends Piece {
+public class Bishop extends Figure {
     /**
      * Konstruktor klasy Bishop.
      *
@@ -56,11 +56,11 @@ public class Bishop extends Piece {
         int newCol = col + colStep;
 
         while (board.isValidMove(row, col, newRow, newCol)) {
-            Piece targetPiece = board.getPiece(newRow, newCol);
-            if (targetPiece == null) {
+            Figure targetFigure = board.getFigure(newRow, newCol);
+            if (targetFigure == null) {
                 moves.add(new int[]{newRow, newCol});
             } else {
-                if (isWhite() != targetPiece.isWhite()) {
+                if (isWhite() != targetFigure.isWhite()) {
                     moves.add(new int[]{newRow, newCol});
                 }
                 break;

@@ -3,7 +3,7 @@ package PRO1;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Knight extends Piece {
+public class Knight extends Figure {
     /**
      * Konstruktor klasy Knight.
      *
@@ -37,8 +37,8 @@ public class Knight extends Piece {
             int newCol = col + offset[1];
 
             if (board.isValidMove(row, col, newRow, newCol)) {
-                Piece targetPiece = board.getPiece(newRow, newCol);
-                if (targetPiece == null || targetPiece.isWhite() != isWhite()) {
+                Figure targetFigure = board.getFigure(newRow, newCol);
+                if (targetFigure == null || targetFigure.isWhite() != isWhite()) {
                     moves.add(new int[]{newRow, newCol});
                 }
             }

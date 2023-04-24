@@ -2,7 +2,7 @@ package PRO1;
 
 import java.util.List;
 
-public abstract class Piece implements IMovable {
+public abstract class Figure implements Movable {
     protected int row;
     protected int col;
     protected boolean isWhite;
@@ -14,7 +14,7 @@ public abstract class Piece implements IMovable {
      * @param col     Współrzędna kolumny figury.
      * @param isWhite Czy figura jest białym graczem (true) czy czarnym (false).
      */
-    public Piece(int row, int col, boolean isWhite) {
+    public Figure(int row, int col, boolean isWhite) {
         this.row = row;
         this.col = col;
         this.isWhite = isWhite;
@@ -25,7 +25,7 @@ public abstract class Piece implements IMovable {
      *
      * @param isWhite Czy figura jest białym graczem (true) czy czarnym (false).
      */
-    public Piece(boolean isWhite) {
+    public Figure(boolean isWhite) {
         this.isWhite = isWhite;
     }
 
@@ -36,15 +36,6 @@ public abstract class Piece implements IMovable {
      */
     public boolean isWhite() {
         return isWhite;
-    }
-
-    /**
-     * Sprawdza, czy figura jest czarnym graczem.
-     *
-     * @return true, jeśli figura jest czarnym graczem, false w przeciwnym przypadku.
-     */
-    public boolean isBlack() {
-        return !isWhite;
     }
 
     /**

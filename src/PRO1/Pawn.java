@@ -3,7 +3,7 @@ package PRO1;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pawn extends Piece {
+public class Pawn extends Figure {
     /**
      * Konstruktor klasy Pawn.
      *
@@ -32,13 +32,13 @@ public class Pawn extends Piece {
         int newRow = row + direction;
 
         // Ruch o jedno pole do przodu
-        if (board.isValidMove(row, col, newRow, col) && board.getPiece(newRow, col) == null) {
+        if (board.isValidMove(row, col, newRow, col) && board.getFigure(newRow, col) == null) {
             moves.add(new int[]{newRow, col});
 
             // Ruch o dwa pola do przodu dla pionka, który jeszcze się nie ruszał
             int twoStepsRow = newRow + direction;
             if ((isWhite() && row == 6) || (!isWhite() && row == 1)) {
-                if (board.isValidMove(row, col, twoStepsRow, col) && board.getPiece(twoStepsRow, col) == null) {
+                if (board.isValidMove(row, col, twoStepsRow, col) && board.getFigure(twoStepsRow, col) == null) {
                     moves.add(new int[]{twoStepsRow, col});
                 }
             }
@@ -47,8 +47,8 @@ public class Pawn extends Piece {
         // Bicie po skosie
         for (int newCol = col - 1; newCol <= col + 1; newCol += 2) {
             if (board.isValidMove(row, col, newRow, newCol)) {
-                Piece targetPiece = board.getPiece(newRow, newCol);
-                if (targetPiece != null && targetPiece.isWhite() != isWhite()) {
+                Figure targetFigure = board.getFigure(newRow, newCol);
+                if (targetFigure != null && targetFigure.isWhite() != isWhite()) {
                     moves.add(new int[]{newRow, newCol});
                 }
             }

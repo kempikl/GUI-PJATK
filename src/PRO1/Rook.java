@@ -3,7 +3,7 @@ package PRO1;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Rook extends Piece {
+public class Rook extends Figure {
     /**
      * Konstruktor klasy Rook.
      *
@@ -73,11 +73,11 @@ public class Rook extends Piece {
      */
     private boolean addMoveIfValid(Board board, int newRow, int newCol, List<int[]> moves) {
         if (board.isValidMove(row, col, newRow, newCol)) {
-            Piece targetPiece = board.getPiece(newRow, newCol);
-            if (targetPiece == null) {
+            Figure targetFigure = board.getFigure(newRow, newCol);
+            if (targetFigure == null) {
                 moves.add(new int[]{newRow, newCol});
             } else {
-                if (isWhite() != targetPiece.isWhite()) {
+                if (isWhite() != targetFigure.isWhite()) {
                     moves.add(new int[]{newRow, newCol});
                 }
                 return true;

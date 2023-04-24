@@ -2,7 +2,7 @@ package PRO1;
 
 import java.util.List;
 
-public interface IMovable {
+public interface Movable {
     /**
      * Zwraca listę dozwolonych ruchów dla danej figury.
      *

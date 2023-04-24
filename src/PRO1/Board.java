@@ -1,63 +1,26 @@
 package PRO1;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class Board {
-    private Piece[][] board;
-    private List<IBoardObserver> observers;
+    private final Figure[][] board;
 
     public Board() {
-        board = new Piece[8][8];
-        observers = new ArrayList<>();
+        board = new Figure[8][8];
     }
 
-    public Piece getPiece(int row, int col) {
+    public Figure getFigure(int row, int col) {
         if (isValidCoordinate(row) && isValidCoordinate(col)) {
             return board[row][col];
         }
         return null;
     }
 
-    public void setPiece(Piece piece, int row, int col) {
+    public void setFigure(Figure figure, int row, int col) {
         if (isValidCoordinate(row) && isValidCoordinate(col)) {
-            board[row][col] = piece;
-            if (piece != null) {
-                piece.setPosition(row, col);
+            board[row][col] = figure;
+            if (figure != null) {
+                figure.setPosition(row, col);
             }
-            notifyObservers();
-        }
-    }
-
-    public boolean isValidMove(int fromRow, int fromCol, int toRow, int toCol) {
-        if (!isValidCoordinate(fromRow) || !isValidCoordinate(fromCol) || !isValidCoordinate(toRow) || !isValidCoordinate(toCol)) {
-            return false;
-        }
-
-        Piece piece = getPiece(fromRow, fromCol);
-        if (piece == null) {
-            return false;
-        }
-
-        Piece targetPiece = getPiece(toRow, toCol);
-        if (targetPiece != null && piece.isWhite() == targetPiece.isWhite()) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public void addObserver(IBoardObserver observer) {
-        observers.add(observer);
-    }
-
-    public void removeObserver(IBoardObserver observer) {
-        observers.remove(observer);
-    }
-
-    private void notifyObservers() {
-        for (IBoardObserver observer : observers) {
-            observer.onBoardChanged(this);
         }
     }
 
@@ -65,58 +28,95 @@ public class Board {
         return coord >= 0 && coord < 8;
     }
 
+    public boolean isValidMove(int fromRow, int fromCol, int toRow, int toCol) {
+        if (!isValidCoordinate(fromRow) || !isValidCoordinate(fromCol) || !isValidCoordinate(toRow) || !isValidCoordinate(toCol)) {
+            return false;
+        }
+
+        Figure figure = getFigure(fromRow, fromCol);
+        if (figure == null) return false;
+
+        Figure targetFigure = getFigure(toRow, toCol);
+        if (!(targetFigure == null || figure.isWhite() != targetFigure.isWhite()))
+            return false;
+
+        return !isObscured(fromRow, fromCol, toRow, toCol);
+    }
+
+    private boolean isObscured(int fromRow, int fromCol, int toRow, int toCol) {
+        int rowDirection = Integer.compare(toRow, fromRow);
+        int colDirection = Integer.compare(toCol, fromCol);
+
+        int currentRow = fromRow + rowDirection;
+        int currentCol = fromCol + colDirection;
+
+        while (currentRow != toRow || currentCol != toCol) {
+            try {
+                if (board[currentRow][currentCol] != null) {
+                    return true;
+                }
+            } catch (ArrayIndexOutOfBoundsException ignored) {}
+
+            currentRow += rowDirection;
+            currentCol += colDirection;
+        }
+
+        return false;
+    }
+
+
     public void initializeBoard() {
         // Umieść piony
         for (int col = 0; col < 8; col++) {
-            setPiece(new Pawn(false), 1, col);
-            setPiece(new Pawn(true), 6, col);
+//            setFigure(new Pawn(false), 1, col);
+            setFigure(new Pawn(true), 6, col);
         }
 
         // Umieść wieże
-        setPiece(new Rook(false), 0, 0);
-        setPiece(new Rook(false), 0, 7);
-        setPiece(new Rook(true), 7, 0);
-        setPiece(new Rook(true), 7, 7);
+//        setFigure(new Rook(false), 0, 0);
+//        setFigure(new Rook(false), 0, 7);
+        setFigure(new Rook(true), 7, 0);
+        setFigure(new Rook(true), 7, 7);
 
         // Umieść skoczki
-        setPiece(new Knight(false), 0, 1);
-        setPiece(new Knight(false), 0, 6);
-        setPiece(new Knight(true), 7, 1);
-        setPiece(new Knight(true), 7, 6);
+//        setFigure(new Knight(false), 0, 1);
+//        setFigure(new Knight(false), 0, 6);
+        setFigure(new Knight(true), 7, 1);
+        setFigure(new Knight(true), 7, 6);
 
         // Umieść gońców
-        setPiece(new Bishop(false), 0, 2);
-        setPiece(new Bishop(false), 0, 5);
-        setPiece(new Bishop(true), 7, 2);
-        setPiece(new Bishop(true), 7, 5);
+//        setFigure(new Bishop(false), 0, 2);
+//        setFigure(new Bishop(false), 0, 5);
+        setFigure(new Bishop(true), 7, 2);
+        setFigure(new Bishop(true), 7, 5);
 
         // Umieść hetmanów
-        setPiece(new Queen(false), 0, 3);
-        setPiece(new Queen(true), 7, 3);
+//        setFigure(new Queen(false), 0, 3);
+        setFigure(new Queen(true), 7, 3);
 
         // Umieść królów
-        setPiece(new King(false), 0, 4);
-        setPiece(new King(true), 7, 4);
+        setFigure(new King(false), 0, 4);
+        setFigure(new King(true), 7, 4);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("  a b c d e f g h\n");
+        sb.append("  A B C D E F G H\n");
         for (int row = 0; row < 8; row++) {
             sb.append(8 - row).append(" ");
             for (int col = 0; col < 8; col++) {
-                Piece piece = getPiece(row, col);
-                if (piece == null) {
+                Figure figure = getFigure(row, col);
+                if (figure == null) {
                     sb.append(".");
                 } else {
-                    sb.append(piece.getSymbol());
+                    sb.append(figure.getSymbol());
                 }
                 sb.append(" ");
             }
             sb.append(8 - row).append("\n");
         }
-        sb.append("  a b c d e f g h\n");
+        sb.append("  A B C D E F G H\n");
         return sb.toString();
     }
 }

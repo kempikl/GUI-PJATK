@@ -3,7 +3,7 @@ package PRO1;
 import java.util.ArrayList;
 import java.util.List;
 
-public class King extends Piece {
+public class King extends Figure {
     /**
      * Konstruktor klasy King.
      *
@@ -59,8 +59,8 @@ public class King extends Piece {
      */
     private void addMoveIfValid(Board board, int newRow, int newCol, List<int[]> moves) {
         if (board.isValidMove(row, col, newRow, newCol)) {
-            Piece targetPiece = board.getPiece(newRow, newCol);
-            if (targetPiece == null || isWhite() != targetPiece.isWhite()) {
+            Figure targetFigure = board.getFigure(newRow, newCol);
+            if (targetFigure == null || isWhite() != targetFigure.isWhite()) {
                 moves.add(new int[]{newRow, newCol});
             }
         }
