@@ -1,10 +1,13 @@
 package PRO1;
 
+import java.util.Scanner;
+
 public class Game {
     private final Board board;
     private final Player whitePlayer;
     private final Player blackPlayer;
     private Player currentPlayer;
+    private  Player currentOpponent;
     private GameObserver observer;
 
     public Game(Board board, String whitePlayerName, String blackPlayerName) {
@@ -12,6 +15,7 @@ public class Game {
         this.whitePlayer = new Player(true, whitePlayerName);
         this.blackPlayer = new Player(false, blackPlayerName);
         this.currentPlayer = whitePlayer;
+        this.currentOpponent = blackPlayer;
 
         board.initializeBoard();
     }
@@ -39,17 +43,26 @@ public class Game {
     }
 
     public boolean isOpponentInCheckmate() {
-        Player opponent = currentPlayer == whitePlayer ? blackPlayer : whitePlayer;
-        return opponent.isKingInCheckmate(board);
+        return currentOpponent.isKingInCheckmate(board);
     }
 
     public boolean isOpponentInCheck() {
-        Player opponent = currentPlayer == whitePlayer ? blackPlayer : whitePlayer;
-        return opponent.isKingInCheck(board);
+        return currentOpponent.isKingInCheck(board);
     }
 
     public void switchPlayer() {
         currentPlayer = (currentPlayer == whitePlayer) ? blackPlayer : whitePlayer;
+        currentOpponent = (currentPlayer == whitePlayer) ? blackPlayer : whitePlayer;
+    }
+
+    public void makeTie() {
+        System.out.println(currentOpponent.getName() + ", czy zgadzasz się na remis? [t/n]");
+        Scanner scanner = new Scanner(System.in);
+        if (scanner.next().equals("t")) {
+            System.out.println("Gra zakończona remisem");
+            System.exit(0);
+        }
+        observer.gameChanged(currentPlayer.getName());
     }
 
     public Board getBoard() {

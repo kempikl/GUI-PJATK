@@ -18,6 +18,9 @@ public class TextUI implements GameObserver {
         System.out.println("Wprowadź swój ruch (np. e2 e4):");
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
+        if (input.equals("remis"))
+            game.makeTie();
+
         String[] parts = input.split(" ");
 
         int[] move = new int[4];
@@ -33,10 +36,6 @@ public class TextUI implements GameObserver {
         }
 
         return move;
-    }
-
-    public void makeTie() {
-
     }
 
     @Override

@@ -5,19 +5,16 @@ import java.util.List;
 public class Player {
     private final boolean isWhite;
     private final String name;
+    public Color color;
 
     public Player(boolean isWhite, String name) {
         this.isWhite = isWhite;
+        this.color = (isWhite) ? Color.WHITE : Color.BLACK;
         this.name = name;
     }
 
-    public boolean isWhite() {
-        return isWhite;
-    }
-
     public String getName() {
-        String colour = isWhite ? " (białe)" : " (czarne)";
-        return name + colour;
+        return name + color.toString();
     }
 
     public boolean movePiece(Board board, int fromRow, int fromCol, int toRow, int toCol) {
