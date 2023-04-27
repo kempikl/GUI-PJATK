@@ -39,7 +39,7 @@ public class Game {
     }
 
     public boolean makeMove(int[] move) {
-        return currentPlayer.movePiece(board, move[0], move[1], move[2], move[3]);
+        return currentPlayer.moveFigure(board, move[0], move[1], move[2], move[3]);
     }
 
     public boolean isOpponentInCheckmate() {

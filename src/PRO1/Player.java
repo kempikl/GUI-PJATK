@@ -17,7 +17,7 @@ public class Player {
         return name + color.toString();
     }
 
-    public boolean movePiece(Board board, int fromRow, int fromCol, int toRow, int toCol) {
+    public boolean moveFigure(Board board, int fromRow, int fromCol, int toRow, int toCol) {
         Figure figure = board.getFigure(fromRow, fromCol);
 
         if (figure == null || figure.isWhite() != isWhite) {
