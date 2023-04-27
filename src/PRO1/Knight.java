@@ -22,6 +22,7 @@ public class Knight extends Figure {
      */
     public Knight(boolean isWhite) {
         super(isWhite);
+        figureType = FigureType.KNIGHT;
     }
 
     @Override

@@ -1,6 +1,11 @@
 package PRO1;
 
 
+import java.io.DataOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 public class Board {
     private final Figure[][] board;
 
@@ -64,37 +69,54 @@ public class Board {
         return false;
     }
 
+    public void save(String filePath) {
+        try (DataOutputStream out = new DataOutputStream(new FileOutputStream(filePath))) {
+            for (int row = 0; row < 8; row++) {
+                for (int col = 0; col < 8; col++) {
+                    Figure figure = board[row][col];
+                    if (figure != null) {
+                        int type = figure.getFigureType().getNumeric();
+                        int color = figure.isWhite() ? 0 : 1;
+                        int data = type | (col << 3) | (row << 7) | (color << 11);
+                        out.writeShort(data);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Błąd zapisu gry! (" + e.getMessage() + ")");
+        }
+    }
 
     public void initializeBoard() {
-        // Umieść piony
+        // Piony
         for (int col = 0; col < 8; col++) {
-//            setFigure(new Pawn(false), 1, col);
+            setFigure(new Pawn(false), 1, col);
             setFigure(new Pawn(true), 6, col);
         }
 
-        // Umieść wieże
-//        setFigure(new Rook(false), 0, 0);
-//        setFigure(new Rook(false), 0, 7);
+        // Wieże
+        setFigure(new Rook(false), 0, 0);
+        setFigure(new Rook(false), 0, 7);
         setFigure(new Rook(true), 7, 0);
         setFigure(new Rook(true), 7, 7);
 
-        // Umieść skoczki
-//        setFigure(new Knight(false), 0, 1);
-//        setFigure(new Knight(false), 0, 6);
+        // Skoczki
+        setFigure(new Knight(false), 0, 1);
+        setFigure(new Knight(false), 0, 6);
         setFigure(new Knight(true), 7, 1);
         setFigure(new Knight(true), 7, 6);
 
-        // Umieść gońców
-//        setFigure(new Bishop(false), 0, 2);
-//        setFigure(new Bishop(false), 0, 5);
+        // Gońce
+        setFigure(new Bishop(false), 0, 2);
+        setFigure(new Bishop(false), 0, 5);
         setFigure(new Bishop(true), 7, 2);
         setFigure(new Bishop(true), 7, 5);
 
-        // Umieść hetmanów
-//        setFigure(new Queen(false), 0, 3);
+        // Hetmany
+        setFigure(new Queen(false), 0, 3);
         setFigure(new Queen(true), 7, 3);
 
-        // Umieść królów
+        // Królowie
         setFigure(new King(false), 0, 4);
         setFigure(new King(true), 7, 4);
     }

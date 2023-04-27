@@ -22,6 +22,7 @@ public class Rook extends Figure {
      */
     public Rook(boolean isWhite) {
         super(isWhite);
+        figureType = FigureType.ROOK;
     }
 
     @Override

@@ -5,9 +5,15 @@ public enum Color {
     BLACK(1, "czarne");
 
     final String friendlyName;
+    final int byteColor;
 
-    Color(long byteColor, String friendlyName) {
+    Color(int byteColor, String friendlyName) {
         this.friendlyName = friendlyName;
+        this.byteColor = byteColor;
+    }
+
+    public int getByteColor() {
+        return byteColor;
     }
 
     @Override

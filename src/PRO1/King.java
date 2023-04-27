@@ -22,6 +22,7 @@ public class King extends Figure {
      */
     public King(boolean isWhite) {
         super(isWhite);
+        figureType = FigureType.KING;
     }
 
     @Override

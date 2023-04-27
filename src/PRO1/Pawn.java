@@ -22,6 +22,7 @@ public class Pawn extends Figure {
      */
     public Pawn(boolean isWhite) {
         super(isWhite);
+        figureType = FigureType.PAWN;
     }
 
     @Override

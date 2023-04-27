@@ -22,6 +22,7 @@ public class Queen extends Figure {
      */
     public Queen(boolean isWhite) {
         super(isWhite);
+        figureType = FigureType.QUEEN;
     }
 
     @Override

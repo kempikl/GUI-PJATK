@@ -6,6 +6,7 @@ public abstract class Figure implements Movable {
     protected int row;
     protected int col;
     protected boolean isWhite;
+    protected FigureType figureType;
 
     /**
      * Konstruktor klasy Piece.
@@ -39,24 +40,6 @@ public abstract class Figure implements Movable {
     }
 
     /**
-     * Zwraca współrzędną wiersza figury.
-     *
-     * @return Współrzędna wiersza figury.
-     */
-    public int getRow() {
-        return row;
-    }
-
-    /**
-     * Zwraca współrzędną kolumny figury.
-     *
-     * @return Współrzędna kolumny figury.
-     */
-    public int getCol() {
-        return col;
-    }
-
-    /**
      * Ustawia nową pozycję figury.
      *
      * @param row Współrzędna wiersza docelowej pozycji.
@@ -65,6 +48,10 @@ public abstract class Figure implements Movable {
     public void setPosition(int row, int col) {
         this.row = row;
         this.col = col;
+    }
+
+    public FigureType getFigureType() {
+        return figureType;
     }
 
     @Override

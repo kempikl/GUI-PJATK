@@ -13,6 +13,7 @@ public class Bishop extends Figure {
      */
     public Bishop(int row, int col, boolean isWhite) {
         super(row, col, isWhite);
+        figureType = FigureType.BISHOP;
     }
 
     /**
