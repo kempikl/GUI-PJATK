@@ -22,13 +22,13 @@ public class Pawn extends Figure {
         int newRow = row + direction;
 
         // Ruch o jedno pole do przodu
-        if (board.isValidMove(row, col, newRow, col) && board.getFigure(newRow, col) == null) {
+        if (board.isValidMove(row, col, newRow, col)) {
             moves.add(new int[]{newRow, col});
 
             // Ruch o dwa pola do przodu dla pionka, który jeszcze się nie ruszał
             int twoStepsRow = newRow + direction;
             if ((isWhite() && row == 6) || (!isWhite() && row == 1)) {
-                if (board.isValidMove(row, col, twoStepsRow, col) && board.getFigure(twoStepsRow, col) == null) {
+                if (board.isValidMove(row, col, twoStepsRow, col)) {
                     moves.add(new int[]{twoStepsRow, col});
                 }
             }
@@ -37,10 +37,7 @@ public class Pawn extends Figure {
         // Bicie po skosie
         for (int newCol = col - 1; newCol <= col + 1; newCol += 2) {
             if (board.isValidMove(row, col, newRow, newCol)) {
-                Figure targetFigure = board.getFigure(newRow, newCol);
-                if (targetFigure != null && targetFigure.isWhite() != isWhite()) {
-                    moves.add(new int[]{newRow, newCol});
-                }
+                moves.add(new int[]{newRow, newCol});
             }
         }
 

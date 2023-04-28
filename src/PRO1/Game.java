@@ -7,7 +7,7 @@ public class Game {
     private final Player whitePlayer;
     private final Player blackPlayer;
     private Player currentPlayer;
-    private  Player currentOpponent;
+    private Player currentOpponent;
     private GameObserver observer;
 
     public Game(Board board, String whitePlayerName, String blackPlayerName) {
@@ -71,8 +71,10 @@ public class Game {
     }
 
     public void loadGame() {
-        if (board.load("data.dat"))
+        if (board.load("data.dat")) {
             System.out.println("Gra została wczytana\n");
+            System.out.println(getBoard());
+        }
     }
 
     public Board getBoard() {

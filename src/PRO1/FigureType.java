@@ -11,7 +11,7 @@ public enum FigureType {
     private final int numeric;
 
     FigureType(int numeric) {
-        this.numeric =numeric;
+        this.numeric = numeric;
     }
 
     public int getNumeric() {

@@ -57,7 +57,8 @@ public class Board {
                 if (board[currentRow][currentCol] != null) {
                     return true;
                 }
-            } catch (ArrayIndexOutOfBoundsException ignored) {}
+            } catch (ArrayIndexOutOfBoundsException ignored) {
+            }
 
             currentRow += rowDirection;
             currentCol += colDirection;
@@ -73,7 +74,7 @@ public class Board {
                     Figure figure = board[row][col];
                     if (figure != null) {
                         int type = figure.getFigureType().getNumeric();
-                        int color = figure.getColor().bitColor;
+                        int color = figure.getColor().getBitColor();
                         int data = type | (col << 3) | (row << 7) | (color << 11);
                         out.writeShort(data);
                     }
@@ -87,7 +88,8 @@ public class Board {
     }
 
     public boolean load(String filePath) {
-        Figure[][] tempBoard = new Figure[8][8];
+        Figure[][] tempBoard = board;
+        board = new Figure[8][8];
 
         try (DataInputStream in = new DataInputStream(new FileInputStream(filePath))) {
             while (in.available() > 0) {
@@ -98,14 +100,12 @@ public class Board {
                 int color = (data >> 11) & 0b1;
 
                 FigureType figureType = FigureType.values()[type];
-                Figure figure = Figure.createFigure(figureType, color == 0);
-
-                tempBoard[row][col] = figure;
+                setFigure(Figure.createFigure(figureType, color == 0), row, col);
             }
-            board = tempBoard;
             return true;
         } catch (IOException e) {
             System.out.println("Błąd wczytywania gry (" + e.getMessage() + ")");
+            board = tempBoard;
             return false;
         }
     }

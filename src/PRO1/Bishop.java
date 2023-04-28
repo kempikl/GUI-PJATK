@@ -46,15 +46,8 @@ public class Bishop extends Figure {
         int newCol = col + colStep;
 
         while (board.isValidMove(row, col, newRow, newCol)) {
-            Figure targetFigure = board.getFigure(newRow, newCol);
-            if (targetFigure == null) {
-                moves.add(new int[]{newRow, newCol});
-            } else {
-                if (isWhite() != targetFigure.isWhite()) {
-                    moves.add(new int[]{newRow, newCol});
-                }
-                break;
-            }
+            moves.add(new int[]{newRow, newCol});
+
             newRow += rowStep;
             newCol += colStep;
         }

@@ -23,11 +23,11 @@ public class TextUI implements GameObserver {
             case "remis" -> game.makeTie();
             case "zapisz" -> {
                 game.saveGame();
-                getMove();
+                return getMove();
             }
             case "wczytaj" -> {
                 game.loadGame();
-                gameChanged(game.getCurrentPlayerName());
+                return getMove();
             }
         }
 

@@ -55,10 +55,10 @@ public class Rook extends Figure {
      * Dodaje ruch o współrzędnych (newRow, newCol) do listy ruchów, jeśli jest dozwolony.
      * Zwraca true, jeśli ruch napotkał na inną figurę (czyli wieża nie może dalej się poruszać w tym kierunku).
      *
-     * @param board   Plansza szachowa.
-     * @param newRow  Współrzędna wiersza docelowej pozycji.
-     * @param newCol  Współrzędna kolumny docelowej pozycji.
-     * @param moves   Lista dozwolonych ruchów.
+     * @param board  Plansza szachowa.
+     * @param newRow Współrzędna wiersza docelowej pozycji.
+     * @param newCol Współrzędna kolumny docelowej pozycji.
+     * @param moves  Lista dozwolonych ruchów.
      * @return true, jeśli ruch napotkał na inną figurę, false w przeciwnym przypadku.
      */
     private boolean addMoveIfValid(Board board, int newRow, int newCol, List<int[]> moves) {

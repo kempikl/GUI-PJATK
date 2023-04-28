@@ -27,10 +27,7 @@ public class Knight extends Figure {
             int newCol = col + offset[1];
 
             if (board.isValidMove(row, col, newRow, newCol)) {
-                Figure targetFigure = board.getFigure(newRow, newCol);
-                if (targetFigure == null || targetFigure.isWhite() != isWhite()) {
-                    moves.add(new int[]{newRow, newCol});
-                }
+                moves.add(new int[]{newRow, newCol});
             }
         }
 

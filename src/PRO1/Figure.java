@@ -3,10 +3,10 @@ package PRO1;
 import java.util.List;
 
 public abstract class Figure implements Movable {
-    protected int row;
-    protected int col;
     protected final boolean isWhite;
     private final Color color;
+    protected int row;
+    protected int col;
     protected FigureType figureType;
 
     /**
