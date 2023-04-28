@@ -43,7 +43,7 @@ public class Player {
 
                 // Sprawdź promocję piona
                 if (figure instanceof Pawn && (toRow == 0 || toRow == 7)) {
-                    Queen promotedPawn = new Queen(toCol, toRow, figure.isWhite());
+                    Queen promotedPawn = new Queen(figure.isWhite());
                     board.setFigure(promotedPawn, toRow, toCol);
                 }
 

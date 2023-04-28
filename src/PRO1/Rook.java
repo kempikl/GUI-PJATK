@@ -7,17 +7,6 @@ public class Rook extends Figure {
     /**
      * Konstruktor klasy Rook.
      *
-     * @param row     Współrzędna wiersza wieży.
-     * @param col     Współrzędna kolumny wieży.
-     * @param isWhite Czy wieża należy do białego gracza (true) czy czarnego (false).
-     */
-    public Rook(int row, int col, boolean isWhite) {
-        super(row, col, isWhite);
-    }
-
-    /**
-     * Konstruktor klasy Rook.
-     *
      * @param isWhite Czy wieża należy do białego gracza (true) czy czarnego (false).
      */
     public Rook(boolean isWhite) {
@@ -74,15 +63,8 @@ public class Rook extends Figure {
      */
     private boolean addMoveIfValid(Board board, int newRow, int newCol, List<int[]> moves) {
         if (board.isValidMove(row, col, newRow, newCol)) {
-            Figure targetFigure = board.getFigure(newRow, newCol);
-            if (targetFigure == null) {
-                moves.add(new int[]{newRow, newCol});
-            } else {
-                if (isWhite() != targetFigure.isWhite()) {
-                    moves.add(new int[]{newRow, newCol});
-                }
-                return true;
-            }
+            moves.add(new int[]{newRow, newCol});
+            return true;
         }
         return false;
     }

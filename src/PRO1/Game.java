@@ -65,6 +65,16 @@ public class Game {
         observer.gameChanged(currentPlayer.getName());
     }
 
+    public void saveGame() {
+        if (board.save("data.dat"))
+            System.out.println("Gra została zapisana\n");
+    }
+
+    public void loadGame() {
+        if (board.load("data.dat"))
+            System.out.println("Gra została wczytana\n");
+    }
+
     public Board getBoard() {
         return board;
     }

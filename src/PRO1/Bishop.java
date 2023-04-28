@@ -7,22 +7,11 @@ public class Bishop extends Figure {
     /**
      * Konstruktor klasy Bishop.
      *
-     * @param row     Współrzędna wiersza gońca.
-     * @param col     Współrzędna kolumny gońca.
-     * @param isWhite Czy goniec należy do białego gracza (true) czy czarnego (false).
-     */
-    public Bishop(int row, int col, boolean isWhite) {
-        super(row, col, isWhite);
-        figureType = FigureType.BISHOP;
-    }
-
-    /**
-     * Konstruktor klasy Bishop.
-     *
      * @param isWhite Czy goniec należy do białego gracza (true) czy czarnego (false).
      */
     public Bishop(boolean isWhite) {
         super(isWhite);
+        figureType = FigureType.BISHOP;
     }
 
     @Override

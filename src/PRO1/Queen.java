@@ -7,17 +7,6 @@ public class Queen extends Figure {
     /**
      * Konstruktor klasy Queen.
      *
-     * @param row     Współrzędna wiersza hetmana.
-     * @param col     Współrzędna kolumny hetmana.
-     * @param isWhite Czy hetman należy do białego gracza (true) czy czarnego (false).
-     */
-    public Queen(int row, int col, boolean isWhite) {
-        super(row, col, isWhite);
-    }
-
-    /**
-     * Konstruktor klasy Queen.
-     *
      * @param isWhite Czy hetman należy do białego gracza (true) czy czarnego (false).
      */
     public Queen(boolean isWhite) {
@@ -107,16 +96,8 @@ public class Queen extends Figure {
      */
     private boolean addMoveIfValid(Board board, int newRow, int newCol, List<int[]> moves) {
         if (board.isValidMove(row, col, newRow, newCol)) {
-            Figure targetFigure = board.getFigure(newRow, newCol);
-            if (targetFigure == null) {
-                moves.add(new int[]{newRow, newCol});
-                return false;
-            } else {
-                if (isWhite() != targetFigure.isWhite()) {
-                    moves.add(new int[]{newRow, newCol});
-                }
-                return true;
-            }
+            moves.add(new int[]{newRow, newCol});
+            return true;
         }
         return false;
     }

@@ -7,17 +7,6 @@ public class Knight extends Figure {
     /**
      * Konstruktor klasy Knight.
      *
-     * @param row     Współrzędna wiersza skoczka.
-     * @param col     Współrzędna kolumny skoczka.
-     * @param isWhite Czy skoczek należy do białego gracza (true) czy czarnego (false).
-     */
-    public Knight(int row, int col, boolean isWhite) {
-        super(row, col, isWhite);
-    }
-
-    /**
-     * Konstruktor klasy Knight.
-     *
      * @param isWhite Czy skoczek należy do białego gracza (true) czy czarnego (false).
      */
     public Knight(boolean isWhite) {

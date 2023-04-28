@@ -5,21 +5,9 @@ import java.util.List;
 public abstract class Figure implements Movable {
     protected int row;
     protected int col;
-    protected boolean isWhite;
+    protected final boolean isWhite;
+    private final Color color;
     protected FigureType figureType;
-
-    /**
-     * Konstruktor klasy Piece.
-     *
-     * @param row     Współrzędna wiersza figury.
-     * @param col     Współrzędna kolumny figury.
-     * @param isWhite Czy figura jest białym graczem (true) czy czarnym (false).
-     */
-    public Figure(int row, int col, boolean isWhite) {
-        this.row = row;
-        this.col = col;
-        this.isWhite = isWhite;
-    }
 
     /**
      * Konstruktor klasy Piece.
@@ -28,6 +16,18 @@ public abstract class Figure implements Movable {
      */
     public Figure(boolean isWhite) {
         this.isWhite = isWhite;
+        color = isWhite ? Color.WHITE : Color.BLACK;
+    }
+
+    public static Figure createFigure(FigureType figureType, boolean isWhite) {
+        return switch (figureType) {
+            case PAWN -> new Pawn(isWhite);
+            case KING -> new King(isWhite);
+            case QUEEN -> new Queen(isWhite);
+            case ROOK -> new Rook(isWhite);
+            case BISHOP -> new Bishop(isWhite);
+            case KNIGHT -> new Knight(isWhite);
+        };
     }
 
     /**
@@ -52,6 +52,10 @@ public abstract class Figure implements Movable {
 
     public FigureType getFigureType() {
         return figureType;
+    }
+
+    public Color getColor() {
+        return color;
     }
 
     @Override

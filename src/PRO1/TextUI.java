@@ -18,8 +18,18 @@ public class TextUI implements GameObserver {
         System.out.println("Wprowadź swój ruch (np. e2 e4):");
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
-        if (input.equals("remis"))
-            game.makeTie();
+
+        switch (input) {
+            case "remis" -> game.makeTie();
+            case "zapisz" -> {
+                game.saveGame();
+                getMove();
+            }
+            case "wczytaj" -> {
+                game.loadGame();
+                gameChanged(game.getCurrentPlayerName());
+            }
+        }
 
         String[] parts = input.split(" ");
 

@@ -7,17 +7,6 @@ public class Pawn extends Figure {
     /**
      * Konstruktor klasy Pawn.
      *
-     * @param row     Współrzędna wiersza pionka.
-     * @param col     Współrzędna kolumny pionka.
-     * @param isWhite Czy pionek należy do białego gracza (true) czy czarnego (false).
-     */
-    public Pawn(int row, int col, boolean isWhite) {
-        super(row, col, isWhite);
-    }
-
-    /**
-     * Konstruktor klasy Pawn.
-     *
      * @param isWhite Czy pionek należy do białego gracza (true) czy czarnego (false).
      */
     public Pawn(boolean isWhite) {

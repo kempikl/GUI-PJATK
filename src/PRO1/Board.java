@@ -1,13 +1,10 @@
 package PRO1;
 
 
-import java.io.DataOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 
 public class Board {
-    private final Figure[][] board;
+    private Figure[][] board;
 
     public Board() {
         board = new Figure[8][8];
@@ -69,14 +66,14 @@ public class Board {
         return false;
     }
 
-    public void save(String filePath) {
+    public boolean save(String filePath) {
         try (DataOutputStream out = new DataOutputStream(new FileOutputStream(filePath))) {
             for (int row = 0; row < 8; row++) {
                 for (int col = 0; col < 8; col++) {
                     Figure figure = board[row][col];
                     if (figure != null) {
                         int type = figure.getFigureType().getNumeric();
-                        int color = figure.isWhite() ? 0 : 1;
+                        int color = figure.getColor().bitColor;
                         int data = type | (col << 3) | (row << 7) | (color << 11);
                         out.writeShort(data);
                     }
@@ -84,6 +81,32 @@ public class Board {
             }
         } catch (IOException e) {
             System.out.println("Błąd zapisu gry! (" + e.getMessage() + ")");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean load(String filePath) {
+        Figure[][] tempBoard = new Figure[8][8];
+
+        try (DataInputStream in = new DataInputStream(new FileInputStream(filePath))) {
+            while (in.available() > 0) {
+                int data = in.readShort();
+                int type = data & 0b111;
+                int col = (data >> 3) & 0b1111;
+                int row = (data >> 7) & 0b1111;
+                int color = (data >> 11) & 0b1;
+
+                FigureType figureType = FigureType.values()[type];
+                Figure figure = Figure.createFigure(figureType, color == 0);
+
+                tempBoard[row][col] = figure;
+            }
+            board = tempBoard;
+            return true;
+        } catch (IOException e) {
+            System.out.println("Błąd wczytywania gry (" + e.getMessage() + ")");
+            return false;
         }
     }
 

@@ -7,17 +7,6 @@ public class King extends Figure {
     /**
      * Konstruktor klasy King.
      *
-     * @param row     Współrzędna wiersza króla.
-     * @param col     Współrzędna kolumny króla.
-     * @param isWhite Czy król należy do białego gracza (true) czy czarnego (false).
-     */
-    public King(int row, int col, boolean isWhite) {
-        super(row, col, isWhite);
-    }
-
-    /**
-     * Konstruktor klasy King.
-     *
      * @param isWhite Czy król należy do białego gracza (true) czy czarnego (false).
      */
     public King(boolean isWhite) {
@@ -59,12 +48,8 @@ public class King extends Figure {
      * @param moves  Lista dozwolonych ruchów.
      */
     private void addMoveIfValid(Board board, int newRow, int newCol, List<int[]> moves) {
-        if (board.isValidMove(row, col, newRow, newCol)) {
-            Figure targetFigure = board.getFigure(newRow, newCol);
-            if (targetFigure == null || isWhite() != targetFigure.isWhite()) {
-                moves.add(new int[]{newRow, newCol});
-            }
-        }
+        if (board.isValidMove(row, col, newRow, newCol))
+            moves.add(new int[]{newRow, newCol});
     }
 }
 
