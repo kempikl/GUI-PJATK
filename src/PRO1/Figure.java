@@ -10,7 +10,7 @@ public abstract class Figure implements Movable {
     protected FigureType figureType;
 
     /**
-     * Konstruktor klasy Piece.
+     * Konstruktor klasy Figure.
      *
      * @param isWhite Czy figura jest białym graczem (true) czy czarnym (false).
      */
