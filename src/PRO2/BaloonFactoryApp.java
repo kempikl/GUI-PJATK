@@ -6,7 +6,7 @@ import java.awt.*;
 public class BaloonFactoryApp {
 
     private final Storage storage = new Storage(99);
-    private final DefaultListModel<String> factoryModel = new DefaultListModel<>();
+    private final DefaultListModel<FactoryPanel> factoryModel = new DefaultListModel<>();
     private final DefaultListModel<String> transporterModel = new DefaultListModel<>();
 
     public static void main(String[] args) {
@@ -20,7 +20,7 @@ public class BaloonFactoryApp {
 
         // Left panel for factories
         JPanel leftPanel = new JPanel(new BorderLayout());
-        JList<String> factoryList = new JList<>(factoryModel);
+        JList<FactoryPanel> factoryList = new JList<>(factoryModel);
         JScrollPane factoryScrollPane = new JScrollPane(factoryList);
         JButton addFactoryButton = new JButton("Add Factory");
 //        addFactoryButton.addActionListener(e -> {
