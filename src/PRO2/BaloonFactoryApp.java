@@ -6,7 +6,6 @@ import java.awt.*;
 public class BaloonFactoryApp {
 
     private final Storage storage = new Storage(99);
-    private final DefaultListModel<FactoryPanel> factoryModel = new DefaultListModel<>();
     private final DefaultListModel<String> transporterModel = new DefaultListModel<>();
 
     public static void main(String[] args) {
@@ -19,32 +18,10 @@ public class BaloonFactoryApp {
         frame.setLayout(new BorderLayout());
 
         // Left panel for factories
-        JPanel leftPanel = new JPanel(new BorderLayout());
-        JList<FactoryPanel> factoryList = new JList<>(factoryModel);
-        JScrollPane factoryScrollPane = new JScrollPane(factoryList);
-        JButton addFactoryButton = new JButton("Add Factory");
-//        addFactoryButton.addActionListener(e -> {
-//            FactoryPanel factoryPanel = new FactoryPanel(new Factory(storage, factoryPanel));
-//            Thread factoryThread = new Thread(factoryPanel.getFactory());
-//            factoryThread.start();
-//            factoryModel.addElement(factoryPanel);
-//        });
-        leftPanel.add(factoryScrollPane, BorderLayout.CENTER);
-        leftPanel.add(addFactoryButton, BorderLayout.SOUTH);
+        JPanel leftPanel = new LeftPanel(storage);
 
         // Right panel for transporters
-        JPanel rightPanel = new JPanel(new BorderLayout());
-        JList<String> transporterList = new JList<>(transporterModel);
-        JScrollPane transporterScrollPane = new JScrollPane(transporterList);
-        JButton addTransporterButton = new JButton("Add Transporter");
-        addTransporterButton.addActionListener(e -> {
-            Transporter transporter = new Transporter(storage);
-            Thread transporterThread = new Thread(transporter);
-            transporterThread.start();
-            transporterModel.addElement("Transporter " + transporterModel.getSize());
-        });
-        rightPanel.add(transporterScrollPane, BorderLayout.CENTER);
-        rightPanel.add(addTransporterButton, BorderLayout.SOUTH);
+        JPanel rightPanel = new RightPanel(storage);
 
         // Center panel for storage
         JTextArea storageTextArea = new JTextArea();

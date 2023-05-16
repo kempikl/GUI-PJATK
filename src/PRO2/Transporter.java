@@ -4,24 +4,26 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
-class Transporter implements Runnable {
+public class Transporter implements Runnable {
     private static final AtomicLong nextTransporterNumber = new AtomicLong();
 
     long number;
     private final Storage storage;
-    private volatile TransporterState state;
+    private volatile TransporterStatus status;
+    private volatile boolean running;
 
     Transporter(Storage storage) {
         number = nextTransporterNumber.incrementAndGet();
         this.storage = storage;
-        this.state = TransporterState.WAITING;
+        this.status = TransporterStatus.WAITING;
+        running = true;
     }
 
     @Override
     public void run() {
-        while(true) {
+        while(running) {
             try {
-                state = TransporterState.LOADING;
+                status = TransporterStatus.LOADING;
                 long startTime = System.nanoTime();
                 List<Baloon> baloons = storage.getBaloons(10);
                 long endTime = System.nanoTime();
@@ -29,7 +31,7 @@ class Transporter implements Runnable {
 
                 delivery(baloons, deliveryTime);
 
-                state = TransporterState.WAITING;
+                status = TransporterStatus.WAITING;
                 TimeUnit.MILLISECONDS.sleep(10000);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
@@ -38,8 +40,17 @@ class Transporter implements Runnable {
         }
     }
 
+    public void stop() {
+        running = false;
+    }
+
+    public void start() {
+        running = true;
+        run();
+    }
+
     private void delivery(List<Baloon> baloons, long deliveryTime) throws InterruptedException {
-        state = TransporterState.DELIVERING;
+        status = TransporterStatus.DELIVERING;
         TimeUnit.MILLISECONDS.sleep(deliveryTime);
 
         for(Baloon baloon : baloons) {
@@ -48,4 +59,7 @@ class Transporter implements Runnable {
         System.out.println("Time: " + deliveryTime);
     }
 
+    public TransporterStatus getStatus() {
+        return status;
+    }
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-class Storage {
+public class Storage {
     private final BlockingQueue<Baloon> queue;
 
     Storage(int storageCapacity) {

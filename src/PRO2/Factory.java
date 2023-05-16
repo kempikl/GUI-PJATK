@@ -2,25 +2,31 @@ package PRO2;
 
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
-class Factory implements Runnable {
+public class Factory implements Runnable {
     private final Storage storage;
-    private final FactoryPanel panel;
     private volatile int productionTime;
-    private volatile boolean running = true;
+    private final AtomicInteger balloonCount;
+    private volatile boolean running;
 
-    Factory(Storage storage, FactoryPanel panel) {
+    Factory(Storage storage) {
         this.storage = storage;
-        this.panel = panel;
-        this.productionTime = 1000;
+        productionTime = ThreadLocalRandom.current().nextInt(100, 3000);
+        balloonCount = new AtomicInteger();
+        running = true;
     }
 
-    void setProductionTime(int productionTime) {
+    public void setProductionTime(int productionTime) {
         this.productionTime = productionTime;
     }
 
-    void stop() {
+    public void stop() {
         running = false;
+    }
+
+    public int getProductionTime() {
+        return productionTime;
     }
 
     @Override
@@ -30,7 +36,7 @@ class Factory implements Runnable {
                 BaloonColor color = BaloonColor.values()[ThreadLocalRandom.current().nextInt(BaloonColor.values().length)];
                 Baloon baloon = new Baloon(color);
                 storage.addBaloon(baloon);
-                panel.incrementBaloonCount();
+                balloonCount.getAndIncrement();
                 TimeUnit.MILLISECONDS.sleep(productionTime);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
@@ -38,5 +44,8 @@ class Factory implements Runnable {
             }
         }
     }
-}
 
+    public int getBalloonCount() {
+        return balloonCount.intValue();
+    }
+}

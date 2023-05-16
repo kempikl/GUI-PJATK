@@ -1,46 +1,35 @@
 package PRO2;
 
 import javax.swing.*;
-import java.awt.*;
-import java.util.concurrent.atomic.AtomicLong;
 
-class FactoryPanel extends JPanel {
-    private final Factory factory;
-    private final AtomicLong baloonCount = new AtomicLong();
+public class FactoryPanel extends JPanel {
 
-    FactoryPanel(Factory factory) {
-        this.factory = factory;
-        setLayout(new BorderLayout());
+    FactoryPanel(Factory factory, Runnable removeCallback) {
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
-        JLabel countLabel = new JLabel("Baloon count: 0");
-        JSlider timeSlider = new JSlider(JSlider.HORIZONTAL, 100, 3000, 1000);
-        JButton removeButton = new JButton("Remove");
-
-        timeSlider.addChangeListener(e -> factory.setProductionTime(timeSlider.getValue()));
-        removeButton.addActionListener(e -> factory.stop());
-
-        add(countLabel, BorderLayout.NORTH);
-        add(timeSlider, BorderLayout.CENTER);
-        add(removeButton, BorderLayout.SOUTH);
-
+        JLabel balloonCountLabel = new JLabel("Baloons produced: 0");
         new Thread(() -> {
-            while (!Thread.currentThread().isInterrupted()) {
-                SwingUtilities.invokeLater(() -> countLabel.setText("Baloon count: " + baloonCount.get()));
+            while (true) {
+                SwingUtilities.invokeLater(() ->
+                        balloonCountLabel.setText("Baloons produced: " + factory.getBalloonCount()));
                 try {
                     Thread.sleep(1000);
-                } catch (InterruptedException ex) {
+                } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
+                    break;
                 }
             }
         }).start();
-    }
 
-    void incrementBaloonCount() {
-        baloonCount.incrementAndGet();
-    }
+        JSlider productionTimeSlider = new JSlider(100, 3000, factory.getProductionTime());
+        productionTimeSlider.addChangeListener(e ->
+                factory.setProductionTime(productionTimeSlider.getValue()));
 
-    public Factory getFactory() {
-        return factory;
+        JButton removeButton = new JButton("Remove factory");
+        removeButton.addActionListener(e -> removeCallback.run());
+
+        add(balloonCountLabel);
+        add(productionTimeSlider);
+        add(removeButton);
     }
 }
-
