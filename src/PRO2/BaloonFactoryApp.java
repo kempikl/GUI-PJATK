@@ -6,18 +6,17 @@ import java.awt.*;
 public class BaloonFactoryApp {
 
     private final Storage storage = new Storage(99);
-    private final DefaultListModel<String> transporterModel = new DefaultListModel<>();
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new BaloonFactoryApp().createAndShowGUI());
     }
 
     private void createAndShowGUI() {
-        JFrame frame = new JFrame("Baloon Factory App");
+        JFrame frame = new JFrame("Fabryka Balonów");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
-        // Left panel for factories
+        // Lewy panel
         JPanel leftPanel = new LeftPanel(storage);
 
         // Right panel for transporters

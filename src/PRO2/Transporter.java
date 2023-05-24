@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class Transporter implements Runnable {
     private static final AtomicLong nextTransporterNumber = new AtomicLong();
 
-    long number;
+    public long number;
     private final Storage storage;
     private volatile TransporterStatus status;
     private volatile boolean running;
@@ -53,10 +53,11 @@ public class Transporter implements Runnable {
         status = TransporterStatus.DELIVERING;
         TimeUnit.MILLISECONDS.sleep(deliveryTime);
 
+        System.out.println("Transporter nr. " + number);
         for(Baloon baloon : baloons) {
-            System.out.println(number + " - Transporting baloon number " + baloon.number + " of color " + baloon.color);
+            System.out.println("Transport balonu nr " + baloon.number + " koloru " + baloon.color);
         }
-        System.out.println("Time: " + deliveryTime);
+        System.out.println("Czas: " + deliveryTime);
     }
 
     public TransporterStatus getStatus() {

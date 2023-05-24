@@ -1,19 +1,26 @@
 package PRO2;
 
 import javax.swing.*;
+import java.awt.*;
+import java.util.concurrent.TimeUnit;
 
 public class FactoryPanel extends JPanel {
 
     FactoryPanel(Factory factory, Runnable removeCallback) {
-        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
 
-        JLabel balloonCountLabel = new JLabel("Baloons produced: 0");
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+
+        JLabel balloonNameLabel = new JLabel("Fabryka " + factory.getNumber());
+
+        JLabel balloonCountLabel = new JLabel("Wyprodukowane balony: 0");
         new Thread(() -> {
             while (true) {
                 SwingUtilities.invokeLater(() ->
-                        balloonCountLabel.setText("Baloons produced: " + factory.getBalloonCount()));
+                        balloonCountLabel.setText("Wyprodukowane balony: " + factory.getBalloonCount()));
                 try {
-                    Thread.sleep(1000);
+                    TimeUnit.SECONDS.sleep(1);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     break;
@@ -25,11 +32,15 @@ public class FactoryPanel extends JPanel {
         productionTimeSlider.addChangeListener(e ->
                 factory.setProductionTime(productionTimeSlider.getValue()));
 
-        JButton removeButton = new JButton("Remove factory");
+        JButton removeButton = new JButton("Usuń fabrykę");
         removeButton.addActionListener(e -> removeCallback.run());
 
-        add(balloonCountLabel);
-        add(productionTimeSlider);
-        add(removeButton);
+        add(balloonNameLabel, gbc);
+        add(Box.createVerticalStrut(5), gbc);
+        add(balloonCountLabel, gbc);
+        add(Box.createVerticalStrut(5), gbc);
+        add(productionTimeSlider, gbc);
+        add(Box.createVerticalStrut(5), gbc);
+        add(removeButton, gbc);
     }
 }

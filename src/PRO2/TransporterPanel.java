@@ -1,6 +1,7 @@
 package PRO2;
 
 import javax.swing.*;
+import java.util.concurrent.TimeUnit;
 
 public class TransporterPanel extends JPanel {
     private final JLabel statusLabel;
@@ -14,7 +15,7 @@ public class TransporterPanel extends JPanel {
                 SwingUtilities.invokeLater(() ->
                         statusLabel.setText("Status: " + transporter.getStatus()));
                 try {
-                    Thread.sleep(1000);
+                    TimeUnit.MILLISECONDS.sleep(1000);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     break;
@@ -28,7 +29,7 @@ public class TransporterPanel extends JPanel {
         JButton stopButton = new JButton("Stop");
         stopButton.addActionListener(e -> transporter.stop());
 
-        JButton removeButton = new JButton("Remove transporter");
+        JButton removeButton = new JButton("Usuń transporter");
         removeButton.addActionListener(e -> removeCallback.run());
 
         add(statusLabel);

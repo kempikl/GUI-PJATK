@@ -1,20 +1,23 @@
 package PRO2;
 
 import javax.swing.*;
-import java.awt.*;
 
-public class RightPanel extends JPanel {
-    private final TransporterListPanel transporterListPanel;
+public class RightPanel extends SidePanel {
+    private TransporterListPanel transporterListPanel;
 
     RightPanel(Storage storage) {
-        setLayout(new BorderLayout());
-        setPreferredSize(new Dimension(250, getPreferredSize().height));
+        super();
+        createListPanel(storage);
+        addComponents();
+    }
 
+    @Override
+    protected void createListPanel(Storage storage) {
         transporterListPanel = new TransporterListPanel();
-        JScrollPane transporterScrollPane = new JScrollPane(transporterListPanel);
+        listScrollPane = new JScrollPane(transporterListPanel);
 
-        JButton addTransporterButton = new JButton("Dodaj Transporter");
-        addTransporterButton.addActionListener(e -> {
+        addButton = new JButton("Dodaj Transporter");
+        addButton.addActionListener(e -> {
             Transporter transporter = new Transporter(storage);
             TransporterPanel[] transporterPanel = new TransporterPanel[1];
             transporterPanel[0] = new TransporterPanel(transporter, () -> {
@@ -24,8 +27,5 @@ public class RightPanel extends JPanel {
             transporterListPanel.addTransporterPanel(transporterPanel[0]);
             new Thread(transporter).start();
         });
-
-        add(transporterScrollPane, BorderLayout.CENTER);
-        add(addTransporterButton, BorderLayout.SOUTH);
     }
 }
