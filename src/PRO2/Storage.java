@@ -24,6 +24,10 @@ public class Storage {
         return baloons;
     }
 
+    public int getBaloonCount() {
+        return queue.size();
+    }
+
     @Override
     public String toString() {
         return "Ilość: " + queue.size();

@@ -19,29 +19,17 @@ public class BaloonFactoryApp {
         // Lewy panel
         JPanel leftPanel = new LeftPanel(storage);
 
-        // Right panel for transporters
+        // Prawy panel
         JPanel rightPanel = new RightPanel(storage);
 
-        // Center panel for storage
-        JTextArea storageTextArea = new JTextArea();
-        JScrollPane storageScrollPane = new JScrollPane(storageTextArea);
-        new Thread(() -> {
-            while (true) {
-                SwingUtilities.invokeLater(() -> storageTextArea.setText(storage.toString()));
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    break;
-                }
-            }
-        }).start();
+        // Centralny panel
+        JPanel centerPanel = new CenterPanel(storage);
 
         frame.add(leftPanel, BorderLayout.WEST);
         frame.add(rightPanel, BorderLayout.EAST);
-        frame.add(storageScrollPane, BorderLayout.CENTER);
+        frame.add(centerPanel, BorderLayout.CENTER);
 
-        frame.setSize(800, 600);
+        frame.setSize(850, 600);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }

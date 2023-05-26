@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 public class FactoryPanel extends JPanel {
 
     FactoryPanel(Factory factory, Runnable removeCallback) {
+        setOpaque(false);
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -29,6 +30,8 @@ public class FactoryPanel extends JPanel {
         }).start();
 
         JSlider productionTimeSlider = new JSlider(100, 3000, factory.getProductionTime());
+        productionTimeSlider.setOpaque(false);
+
         productionTimeSlider.addChangeListener(e ->
                 factory.setProductionTime(productionTimeSlider.getValue()));
 

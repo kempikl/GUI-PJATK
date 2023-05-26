@@ -11,28 +11,40 @@ public class Transporter implements Runnable {
     private final Storage storage;
     private volatile TransporterStatus status;
     private volatile boolean running;
+    private boolean isPaused;
+    private final Object lock = new Object();
 
     Transporter(Storage storage) {
         number = nextTransporterNumber.incrementAndGet();
+        status = TransporterStatus.WAITING;
         this.storage = storage;
-        this.status = TransporterStatus.WAITING;
         running = true;
+        isPaused = false;
     }
 
     @Override
     public void run() {
         while(running) {
             try {
-                status = TransporterStatus.LOADING;
-                long startTime = System.nanoTime();
-                List<Baloon> baloons = storage.getBaloons(10);
-                long endTime = System.nanoTime();
-                long deliveryTime = TimeUnit.NANOSECONDS.toMillis(endTime - startTime);
+                synchronized (lock) {
+                    if (isPaused) {
+                        status = TransporterStatus.PAUSED;
+                        lock.wait();
+                    }
 
-                delivery(baloons, deliveryTime);
+                    status = TransporterStatus.LOADING;
+                    long startTime = System.nanoTime();
+                    List<Baloon> baloons = storage.getBaloons(10);
+                    long endTime = System.nanoTime();
+                    long deliveryTime = TimeUnit.NANOSECONDS.toMillis(endTime - startTime);
 
-                status = TransporterStatus.WAITING;
-                TimeUnit.MILLISECONDS.sleep(10000);
+                    delivery(baloons, deliveryTime);
+
+                    if (!isPaused) {
+                        status = TransporterStatus.WAITING;
+                        TimeUnit.SECONDS.sleep(10);
+                    }
+                }
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 break;
@@ -44,9 +56,16 @@ public class Transporter implements Runnable {
         running = false;
     }
 
-    public void start() {
-        running = true;
-        run();
+    public void resumeThread() {
+        synchronized (lock) {
+            status = TransporterStatus.WAITING;
+            isPaused = false;
+            lock.notify();
+        }
+    }
+
+    public void pauseThread() {
+        isPaused = true;
     }
 
     private void delivery(List<Baloon> baloons, long deliveryTime) throws InterruptedException {
