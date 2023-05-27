@@ -3,12 +3,12 @@ package PRO2;
 import javax.swing.*;
 import java.awt.*;
 
-public class BaloonFactoryApp {
+public class Main {
 
     private final Storage storage = new Storage(99);
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new BaloonFactoryApp().createAndShowGUI());
+        SwingUtilities.invokeLater(() -> new Main().createAndShowGUI());
     }
 
     private void createAndShowGUI() {
@@ -34,4 +34,3 @@ public class BaloonFactoryApp {
         frame.setVisible(true);
     }
 }
-

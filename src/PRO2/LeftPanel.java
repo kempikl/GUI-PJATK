@@ -1,7 +1,6 @@
 package PRO2;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class LeftPanel extends SidePanel {
     private FactoryListPanel factoryListPanel;

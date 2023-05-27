@@ -10,8 +10,8 @@ public class Factory implements Runnable {
 
     private final long number;
     private final Storage storage;
-    private volatile int productionTime;
     private final AtomicInteger balloonCount;
+    private volatile int productionTime;
     private volatile boolean running;
 
     Factory(Storage storage) {
@@ -22,16 +22,16 @@ public class Factory implements Runnable {
         running = true;
     }
 
-    public void setProductionTime(int productionTime) {
-        this.productionTime = productionTime;
-    }
-
     public void stop() {
         running = false;
     }
 
     public int getProductionTime() {
         return productionTime;
+    }
+
+    public void setProductionTime(int productionTime) {
+        this.productionTime = productionTime;
     }
 
     @Override

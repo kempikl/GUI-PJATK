@@ -14,7 +14,7 @@ public abstract class ListPanel extends JPanel {
     public ListPanel() {
         panels = new ArrayList<>();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        setBackground(new Color(168,218,220));
+        setBackground(new Color(168, 218, 220));
     }
 
     protected void addPanel(JPanel panel) {

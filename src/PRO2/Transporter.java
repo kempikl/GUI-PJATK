@@ -6,13 +6,12 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class Transporter implements Runnable {
     private static final AtomicLong nextTransporterNumber = new AtomicLong();
-
-    public long number;
     private final Storage storage;
+    private final Object lock = new Object();
+    public long number;
     private volatile TransporterStatus status;
     private volatile boolean running;
     private boolean isPaused;
-    private final Object lock = new Object();
 
     Transporter(Storage storage) {
         number = nextTransporterNumber.incrementAndGet();
@@ -24,7 +23,7 @@ public class Transporter implements Runnable {
 
     @Override
     public void run() {
-        while(running) {
+        while (running) {
             try {
                 synchronized (lock) {
                     if (isPaused) {
@@ -73,7 +72,7 @@ public class Transporter implements Runnable {
         TimeUnit.MILLISECONDS.sleep(deliveryTime);
 
         System.out.println("Transporter nr. " + number);
-        for(Baloon baloon : baloons) {
+        for (Baloon baloon : baloons) {
             System.out.println("Transport balonu nr " + baloon.number + " koloru " + baloon.color);
         }
         System.out.println("Czas: " + deliveryTime);

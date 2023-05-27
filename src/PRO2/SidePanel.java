@@ -4,9 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public abstract class SidePanel extends JPanel {
+    protected final Dimension preferredSize = new Dimension(240, getPreferredSize().height);
     protected JScrollPane listScrollPane;
     protected JButton addButton;
-    protected final Dimension preferredSize = new Dimension(240, getPreferredSize().height);
 
     SidePanel() {
         setLayout(new BorderLayout());

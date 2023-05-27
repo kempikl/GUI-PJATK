@@ -18,7 +18,7 @@ public class Storage {
 
     public synchronized List<Baloon> getBaloons(int amount) throws InterruptedException {
         List<Baloon> baloons = new ArrayList<>();
-        for(int i = 0; i < amount; i++) {
+        for (int i = 0; i < amount; i++) {
             baloons.add(queue.take());
         }
         return baloons;
@@ -33,5 +33,3 @@ public class Storage {
         return "Ilość: " + queue.size();
     }
 }
-
-
