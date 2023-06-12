@@ -3,7 +3,7 @@ package PRO2;
 import javax.swing.*;
 
 public class LeftPanel extends SidePanel {
-    private FactoryListPanel factoryListPanel;
+    private ListPanel ListPanel;
 
     LeftPanel(Storage storage) {
         super();
@@ -13,18 +13,18 @@ public class LeftPanel extends SidePanel {
 
     @Override
     protected void createListPanel(Storage storage) {
-        factoryListPanel = new FactoryListPanel();
-        listScrollPane = new JScrollPane(factoryListPanel);
+        ListPanel = new ListPanel();
+        listScrollPane = new JScrollPane(ListPanel);
 
         addButton = new JButton("Dodaj fabrykę");
         addButton.addActionListener(e -> {
             Factory factory = new Factory(storage);
             FactoryPanel[] factoryPanel = new FactoryPanel[1];
             factoryPanel[0] = new FactoryPanel(factory, () -> {
-                factoryListPanel.removeFactoryPanel(factoryPanel[0]);
+                ListPanel.removePanel(factoryPanel[0]);
                 factory.stop();
             });
-            factoryListPanel.addFactoryPanel(factoryPanel[0]);
+            ListPanel.addPanel(factoryPanel[0]);
             new Thread(factory).start();
         });
     }

@@ -13,7 +13,7 @@ public class Main {
         private final Random random = new Random();
 
         public MyPanel() {
-            setPreferredSize(new Dimension(500, 500));
+            setPreferredSize(new Dimension(600, 500));
             setFocusable(true);
             addMouseListener(new MouseAdapter() {
                 @Override
@@ -58,6 +58,7 @@ public class Main {
             frame.pack();
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setVisible(true);
+            panel.setBackground(Color.BLUE);
             panel.requestFocusInWindow();
         });
     }

@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class ListPanel extends JPanel {
-    protected final List<JPanel> panels;
+public class ListPanel extends JPanel {
+    private final List<JPanel> panels;
 
     public ListPanel() {
         panels = new ArrayList<>();
