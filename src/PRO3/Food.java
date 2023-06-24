@@ -1,31 +1,22 @@
 package PRO3;
 
-import java.awt.Point;
+import java.awt.*;
 import java.util.Random;
 
 public class Food {
+    private final Random random;
     private Point location;
-    private Random random;
 
     public Food() {
         this.random = new Random();
-        this.location = new Point(generateRandomCoordinate(), generateRandomCoordinate());
-    }
-
-    private int generateRandomCoordinate() {
-        return random.nextInt(25); //TODO
+        generateNewLocation();
     }
 
     public Point getLocation() {
         return location;
     }
 
-    public void setLocation(Point location) {
-        this.location = location;
-    }
-
     public void generateNewLocation() {
-        this.location = new Point(generateRandomCoordinate(), generateRandomCoordinate());
+        this.location = new Point(random.nextInt(25), random.nextInt(16));
     }
 }
-

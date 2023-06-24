@@ -1,57 +1,59 @@
 package PRO3;
 
-import java.awt.Point;
+import java.awt.*;
+import java.util.Deque;
 import java.util.LinkedList;
-import java.util.Queue;
 
 public class Snake {
-    private Queue<Point> body; // używamy kolejki do przechowywania segmentów ciała węża
-    private int direction; // kierunek, w którym porusza się wąż
+    private final Deque<Point> body;
+    private SnakeDirection direction;
 
     public Snake() {
-        this.body = new LinkedList<Point>();
-        this.direction = 0; // na początek ustawiamy kierunek na 0
-        this.body.add(new Point(0, 0)); // na początku wąż ma jeden segment
+        this.body = new LinkedList<>();
+        this.direction = SnakeDirection.RIGHT;
+        this.body.add(new Point(0, 0));
     }
 
-    public Queue<Point> getBody() {
+    public Deque<Point> getBody() {
         return body;
     }
 
-    public void setDirection(int direction) {
+    public SnakeDirection getDirection() {
+        return direction;
+    }
+
+    public void setDirection(SnakeDirection direction) {
         this.direction = direction;
     }
 
-    public void move() {
-        Point head = body.peek(); // aktualna głowa węża
-        Point newPoint = switch (direction) {
-            case 0 -> // w górę
-                    new Point(head.x, head.y - 1);
-            case 1 -> // w prawo
-                    new Point(head.x + 1, head.y);
-            case 2 -> // w dół
-                    new Point(head.x, head.y + 1);
-            case 3 -> // w lewo
-                    new Point(head.x - 1, head.y);
-            default -> null;
+    public void move(Food food, GameBoard board) {
+        Point head = body.peekFirst();
 
-            // w zależności od kierunku dodajemy nowy punkt na początek ciała węża
-        };
+        Point newPoint = new Point(head.x + direction.getDx(), head.y + direction.getDy());
 
-        // dodajemy nowy punkt na początek ciała węża
-        body.add(newPoint);
+        if (isOutsideBoard(newPoint, board) || isBodyCollision(newPoint)) {
+            new SnakeCollisionEvent(this);
+        } else {
+            body.addFirst(newPoint);
 
-        // usuwamy ostatni element ciała węża, chyba że wąż zjadł jedzenie
-        // w takim przypadku nie usuwamy ostatniego elementu, więc wąż "rośnie"
-        // to można zaimplementować poprzez dodanie warunku sprawdzającego, czy wąż zjadł jedzenie
-        body.remove();
+            if (!isFoodEaten(newPoint, food))
+                body.removeLast();
+            else new FoodEatenEvent(food);
+        }
     }
 
-    public boolean checkCollision() {
-        // sprawdzamy, czy wąż uderzył w siebie lub w ścianę
-        // to można zaimplementować poprzez sprawdzenie, czy nowa głowa węża jest poza planszą lub na innym segmencie ciała węża
-        // na razie zwrócimy false
-        return false;
+    private boolean isFoodEaten(Point head, Food food) {
+        if (head.equals(food.getLocation())) {
+            food.generateNewLocation();
+            return true;
+        } else return false;
+    }
+
+    private boolean isOutsideBoard(Point head, GameBoard board) {
+        return head.x < 0 || head.x >= board.getColumnCount() || head.y < 0 || head.y >= board.getRowCount();
+    }
+
+    public boolean isBodyCollision(Point point) {
+        return body.contains(point);
     }
 }
-
